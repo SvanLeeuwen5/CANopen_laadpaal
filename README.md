@@ -2,11 +2,11 @@
 
 ## install
 
-pip install python-can
-pip install canopen
+pip install python-can  
+pip install canopen  
 
 ## Info
-https://python-can.readthedocs.io/en/stable/
+https://python-can.readthedocs.io/en/stable/  
 https://canopen.readthedocs.io/en/latest/
 
 ## Tutorial
