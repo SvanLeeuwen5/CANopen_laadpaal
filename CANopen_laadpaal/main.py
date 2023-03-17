@@ -1,5 +1,3 @@
-import canopen
-from can.interfaces.vector import VectorBus
 import CANopen_network as cn
 
 def main():
