@@ -34,13 +34,26 @@ class laadpaal(canopen.RemoteNode):
 
     @property
     def Power_Module_Enable(self) -> str:
-        if self.sdo[0x2100].bits[0] == 0: #TODO test
+        """Returns whether the power module is enabled or disabled.
+
+        Returns:
+            A string indicating whether the power module is "Enabled" or "Disabled".
+        """
+        print(self.sdo[0x2100].raw)
+        if self.sdo[0x2100].bits[0] == 0:
             return "Disabled"
         else:
             return "Enabled"
     
     @Power_Module_Enable.setter
     def Power_Module_Enable(self, Power_Module_Enable:str):
+        """
+        Sets the power module enable property to either Enable or Disable.
+
+        Args:
+            Power_Module_Enable (str): The value to set the power module enable property to.
+            Must be either "Enable" or "Disable".
+        """
         if Power_Module_Enable == "Enable":
             self.sdo[0x2100].raw = 1
         elif Power_Module_Enable == "Disable":
