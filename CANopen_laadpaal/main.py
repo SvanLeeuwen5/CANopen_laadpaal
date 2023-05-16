@@ -4,6 +4,7 @@ def main():
     network = cn.network()
     
     print(network.laadpaal.AC_Input_Current)
+    
 
 
 if __name__ == '__main__':
