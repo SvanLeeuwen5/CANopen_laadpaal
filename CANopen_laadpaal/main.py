@@ -3,8 +3,7 @@ import CANopen_network as cn
 def main():
     network = cn.network()
     
-    print(network.laadpaal.AC_Input_Current)
-    
+    network.laadpaal.Power_Module_Enable = 'Enable'
 
 
 if __name__ == '__main__':
