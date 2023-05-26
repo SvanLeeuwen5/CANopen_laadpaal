@@ -1,5 +1,6 @@
 import canopen
 from can.interfaces.vector import VectorBus
+import time
 """
 Unimplemented:
 Object 0x2102: Power Module Status Extended
@@ -35,7 +36,7 @@ class laadpaal(canopen.RemoteNode):
         network.connect(bustype='vector', channel=0, bitrate=500000)  
         network.add_node(self)
 
-    def setSetpoint(self, voltage, current):
+    def setSetpoint(self, voltage, current): #TODO define limits
         """
         Set the setpoint of the laadpaal
         """
@@ -47,6 +48,7 @@ class laadpaal(canopen.RemoteNode):
             return
         self.DC_Input_Current_Setpoint = current
         self.DC_Input_Voltage_Setpoint = voltage
+        time.sleep(1)
         self.Power_Module_Enable = 'Enable'
 
     def getSetpoint(self):
