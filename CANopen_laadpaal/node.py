@@ -30,38 +30,51 @@ Object 0x2FF0: Configuration Node ID
 """
 class laadpaal(canopen.RemoteNode):
     def __init__(self, node_id, object_dictionary):
-        super().__init__(node_id, object_dictionary)
+        super(canopen.RemoteNode).__init__(node_id, object_dictionary)
         network = canopen.Network()
         self.bus = VectorBus(channel=0, bitrate=500000, app_name='CANopen_network')
         network.connect(bustype='vector', channel=0, bitrate=500000)  
         network.add_node(self)
 
-    def setSetpoint(self, voltage, current): #TODO define limits
-        """
-        Set the setpoint of the laadpaal
-        """
-        if voltage > 500:
-            print("Error; voltage must be between 0 and 500")
-            return
-        if -3> current > 3:
-            print("Error; current must be between -3 and 3")
-            return
-        self.DC_Input_Current_Setpoint = current
-        self.DC_Input_Voltage_Setpoint = voltage
-        time.sleep(1)
+    def pre_charge(self, battery_voltage):
         self.Power_Module_Enable = 'Enable'
+        self.DC_Input_Current_Setpoint = 1
+        self.DC_Input_Voltage_Setpoint = battery_voltage - 5
+        while self.DC_Output_Voltage < battery_voltage - 1:
+            print(self.DC_Output_Voltage, battery_voltage)
+
+    def start_charge(self, current, voltage):
+        self.DC_Input_Current_Setpoint = 0
+        self.DC_Input_Voltage_Setpoint = voltage
+        current_leftover = current % 20
+        while self.DC_Input_Current_Setpoint != current:
+            if self.DC_Input_Current_Setpoint == current - current_leftover:
+                self.DC_Input_Current_Setpoint += current_leftover
+            else:
+                self.DC_Input_Current_Setpoint += 20
+            time.sleep(1)
+
+    def start_v2g(self, current, voltage):
+        self.DC_Input_Current_Setpoint = 0
+        self.DC_Input_Voltage_Setpoint = voltage
+        current_leftover = abs(current) % 20
+        while self.DC_Input_Current_Setpoint != current:
+            if self.DC_Input_Current_Setpoint == current - current_leftover:
+                self.DC_Input_Current_Setpoint -= current_leftover
+            else:
+                self.DC_Input_Current_Setpoint -= 20
+            time.sleep(1)  
+
+    def stop_charge(self):
+        self.Power_Module_Enable = 'Disable'
+        self.DC_Input_Current_Setpoint = 0
+        self.DC_Input_Voltage_Setpoint = 0      
 
     def getSetpoint(self):
         """
         Get the REAL setpoint of the laadpaal
         """
         return self.IDC_setpoint, self.UDC_setpoint
-
-    def disablePower(self):
-        """
-        Disable the laadpaal
-        """
-        self.Power_Module_Enable = 'Disable'
 
     @property
     def Power_Module_Enable(self) -> str:
