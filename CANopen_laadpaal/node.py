@@ -1,4 +1,4 @@
-import canopen
+from canopen import RemoteNode, Network
 from can.interfaces.vector import VectorBus
 import time
 """
@@ -28,11 +28,11 @@ Object 0x2553: AC switch-off timestamp
 Object 0x2FFF: Restart
 Object 0x2FF0: Configuration Node ID
 """
-class laadpaal(canopen.RemoteNode):
+class laadpaal(RemoteNode):
     def __init__(self, node_id, object_dictionary):
         super().__init__(node_id, object_dictionary)
-        network = canopen.Network()
-        self.bus = VectorBus(channel=0, bitrate=500000, app_name='CANopen_network')
+        network = Network()
+        network.bus = VectorBus(channel=0, bitrate=500000, app_name='node')
         network.connect(bustype='vector', channel=0, bitrate=500000)  
         network.add_node(self)
 
@@ -49,7 +49,7 @@ class laadpaal(canopen.RemoteNode):
         self.DC_Input_Current_Setpoint = current
         self.DC_Input_Voltage_Setpoint = voltage
         time.sleep(1)
-        self.Power_Module_Enable = 'Enable'
+        self.Power_Module_Enable = 1
 
     def getSetpoint(self):
         """
@@ -61,36 +61,32 @@ class laadpaal(canopen.RemoteNode):
         """
         Disable the laadpaal
         """
-        self.Power_Module_Enable = 'Disable'
+        self.Power_Module_Enable = 0
 
     @property
     def Power_Module_Enable(self) -> str:
         """Returns whether the power module is enabled or disabled.
 
         Returns:
-            A string indicating whether the power module is "Enabled" or "Disabled".
+            1: Enabled, 0: Disabled
         """
-        print(self.sdo[0x2100].raw)
-        if self.sdo[0x2100].bits[0] == 0:
-            return "Disabled"
-        else:
-            return "Enabled"
-    
+        return self.sdo[0x2100].bits[0]
+
     @Power_Module_Enable.setter
-    def Power_Module_Enable(self, Power_Module_Enable:str):
+    def Power_Module_Enable(self, Power_Module_Enable:int):
         """
         Sets the power module enable property to either Enable or Disable.
 
         Args:
             Power_Module_Enable (str): The value to set the power module enable property to.
-            Must be either "Enable" or "Disable".
+            Must be either 1 or 0.
         """
-        if Power_Module_Enable == "Enable":
+        if Power_Module_Enable == 1:
             self.sdo[0x2100].raw = 1
-        elif Power_Module_Enable == "Disable":
+        elif Power_Module_Enable == 0:
             self.sdo[0x2100].raw = 0
         else:
-            print("Error; Value can only be Disable or Enable")      
+            print("Error; Value can only be 1 or 0")      
 
     @property
     def Power_Module_Status(self) -> list:
