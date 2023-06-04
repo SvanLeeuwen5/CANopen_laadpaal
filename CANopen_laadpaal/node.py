@@ -131,75 +131,75 @@ class laadpaal(RemoteNode):
         """
         This read-only object contains the highest temperature of all temperature measurements in the module.  
         """	
-        return self.sdo[0x2104].raw/10
+        return self.sdo[0x2104].raw*10
 
     @property
     def AC_Input_Voltage(self):
         """
         This read-only object contains the measured average input voltage of the three AC phases (line-neutral).
         """
-        return self.sdo[0x2105].raw/10
+        return self.sdo[0x2105].raw*10
 
     @property
     def AC_Input_Current(self):
         """
         This read-only object contains the measured average input current of the three AC phases
         """
-        return self.sdo[0x2106].raw/10
+        return self.sdo[0x2106].raw*10
 
     @property
     def DC_Output_Voltage(self):
         """
         This read-only object contains the measured output voltage
         """
-        return self.sdo[0x2107].raw/10   
+        return self.sdo[0x2107].raw*10   
 
     @property
     def DC_Output_Current(self):
         """
         This read-only object contains the measured output current
         """
-        return self.sdo[0x2108].raw/10  
+        return self.sdo[0x2108].raw*10  
     
     @property
     def DC_Input_Voltage_Setpoint(self):
         """	
         This read/write object contains the output voltage setpoint
         """
-        return self.sdo[0x2109].raw/10
+        return self.sdo[0x2109].raw*10
     
     @DC_Input_Voltage_Setpoint.setter
     def DC_Input_Voltage_Setpoint(self, DC_Input_Voltage_Setpoint):
-        self.sdo[0x2109].raw = DC_Input_Voltage_Setpoint/10    
+        self.sdo[0x2109].raw = DC_Input_Voltage_Setpoint*10    
 
     @property
     def DC_Input_Current_Setpoint(self):
         """	
         This read/write object contains the output current setpoint
         """
-        return self.sdo[0x210A].raw/10 
+        return self.sdo[0x210A].raw*10 
     
     @DC_Input_Current_Setpoint.setter
     def DC_Input_Current_Setpoint(self, DC_Input_Current_Setpoint):
-        self.sdo[0x210A].raw = DC_Input_Current_Setpoint/10
+        self.sdo[0x210A].raw = DC_Input_Current_Setpoint*10
 
     @property
     def DC_Bus_Voltage(self):
         """	
         This read-only object contains the internal DC bus voltage
         """
-        return self.sdo[0x210D].raw/10 
+        return self.sdo[0x210D].raw*10 
     
     @property
     def Power_Module_DC_Undervoltage_Setpoint(self):
         """	
         This read/write object contains the output undervoltage setpoint
         """
-        return self.sdo[0x210F].raw/10
+        return self.sdo[0x210F].raw*10
 
     @Power_Module_DC_Undervoltage_Setpoint.setter
     def Power_Module_DC_Undervoltage_Setpoint(self, Power_Module_DC_Undervoltage_Setpoint):
-        self.sdo[0x210F].raw = Power_Module_DC_Undervoltage_Setpoint/10 
+        self.sdo[0x210F].raw = Power_Module_DC_Undervoltage_Setpoint*10 
 
     
     @property
@@ -207,50 +207,50 @@ class laadpaal(RemoteNode):
         """	
         This read-only object contains the real (current) setpoint of UDC that is used by the module
         """
-        return self.sdo[0x2149].raw/10
+        return self.sdo[0x2149].raw*10
 
     @property
     def IDC_setpoint(self):
         """	
         This read-only object contains the real (current) setpoint of UDC that is used by the module
         """
-        return self.sdo[0x214A].raw/10 
+        return self.sdo[0x214A].raw*10 
 
     @property
     def Available_power_charge_mode(self):
         """	
         This read-only object contains the available power if the module is in charge mode
         """
-        return self.sdo[0x214B].raw/10  
+        return self.sdo[0x214B].raw*10  
        
     @property
     def Available_power_V2G_mode(self):
         """
         This read-only object contains the available power if the module is in V2G mode
         """
-        return self.sdo[0x214C].raw/10
+        return self.sdo[0x214C].raw*10
     
     @property
     def Maximum_DC_current_charge(self):
         """
         This read/write object contains the maximum current allowed in charge mode on the DC side of the module
         """
-        return self.sdo[0x214D].raw/10 
+        return self.sdo[0x214D].raw*10 
     
     @Maximum_DC_current_charge.setter
     def Maximum_DC_current_charge(self, Maximum_DC_current_charge):
-        self.sdo[0x214D].raw = Maximum_DC_current_charge/10   
+        self.sdo[0x214D].raw = Maximum_DC_current_charge*10   
 
     @property
     def Maximum_DC_current_V2G(self):
         """
         This read/write object contains the maximum current allowed in V2G mode on the DC side of the module.
         """
-        return self.sdo[0x214D].raw/10 
+        return self.sdo[0x214D].raw*10 
     
     @Maximum_DC_current_V2G.setter
     def Maximum_DC_current_V2G(self, Maximum_DC_current_V2G):
-        self.sdo[0x214D].raw = Maximum_DC_current_V2G/10           
+        self.sdo[0x214D].raw = Maximum_DC_current_V2G*10           
       
 
 
