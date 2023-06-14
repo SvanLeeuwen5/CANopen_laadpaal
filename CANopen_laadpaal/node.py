@@ -32,7 +32,7 @@ class laadpaal(RemoteNode):
     def __init__(self, node_id, object_dictionary):
         super().__init__(node_id, object_dictionary)
         network = Network()
-        network.bus = VectorBus(channel=0, bitrate=500000, app_name='node')
+        network.bus = VectorBus(channel=0, bitrate=500000)
         network.connect(bustype='vector', channel=0, bitrate=500000)  
         network.add_node(self)
 
